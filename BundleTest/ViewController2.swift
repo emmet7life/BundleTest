@@ -100,7 +100,7 @@ class ViewController2: UIViewController {
 //            let newWidth = likeBtn.setItemData(with: data, animated: true)
 //            likeBtn.width = newWidth
             
-            print("👊 userTappedActionBlock~~~~"+type.flagString+" 👊 \(dateFormatter.string(from: Date()))")
+            print("userTappedActionBlock~~~~"+type.flagString)
         }
         
 //        test()

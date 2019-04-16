@@ -79,7 +79,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         
         var flagString: String {
             switch self {
-            case .quickTapping(let count1, let count2): return "👆1️⃣quickTapping with \(count1) | \(count2)"
+            case .quickTapping(_, let count): return "👆1️⃣quickTapping with \(count)"
             case .quickTappedFired: return "👆2️⃣quickTappedFired"
             case .longPressFiredStart(let count): return "✋3️⃣longPressFiredStart with \(count)"
             case .longPressFiring(let count): return "✋4️⃣longPressFiring with \(count)"
@@ -222,10 +222,12 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("touchesBegan~~~~")
         if let data = itemData {
-            // 1. 赋初始值
             if _isEventHandled && _touchesBeginZanState == nil {
+                // 1. 赋初始值
                 _isEventHandled = false
                 _touchesBeginZanState = data.isZaned
+            } else {
+                
             }
             if _isTaskValid {
                 // 2. 清除Event Handler Timer
@@ -249,6 +251,13 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             // 长按事件，手指松开
             longPressTouchesEnded()
             return
+        }
+        
+        if _isLongPressEventTrigger {
+            // 上一次是长按事件，并且未结束，然后再次快速点击时，_quickTappedCount + 3
+            _quickTappedCount += 3
+            _isLongPressEventTrigger = false
+            endEventHandlerTimer()
         }
         
         if let data = itemData, _isTaskValid {
@@ -296,23 +305,24 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     // MARK: - Long Press Detect Timer
     private var _longPressDetectTimer: Timer?
     private var _longPressDetected: Bool = false
+    private var _isLongPressEventTrigger: Bool = false
     private var _longPressFiringTimer: SwiftTimer? = nil
     
     private func startLongPressDetectTimer() {
-        print("startLongPressDetectTimer~~~~长按事件监测-Timer开始")
+        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer开始")
         _longPressDetectTimer?.invalidate()
         _longPressDetectTimer = Timer(timeInterval: 0.36, target: self, selector: #selector(longPressDetectTimerFire), userInfo: nil, repeats: false)
         RunLoop.main.add(_longPressDetectTimer!, forMode: RunLoop.Mode.commonModes)
     }
     
     private func endLongPressDetectTimer() {
-        print("startLongPressDetectTimer~~~~长按事件监测-Timer取消 \(_quickTappedCount)")
+        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer取消")
         _longPressDetectTimer?.invalidate()
         _longPressDetectTimer = nil
     }
     
     @objc private func longPressDetectTimerFire() {
-        print("longPressDetectTimerFire~~~~长按事件-触发")
+        print("🔥longPressDetectTimerFire~~~~长按事件监测-Timer触发")
         // End Timer
         _longPressDetected = true
         endLongPressDetectTimer()
@@ -359,6 +369,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         userTappedActionBlock?(.longPressFingerTouchUp)
         // Start Event Timer
         startEventHandlerTimer(with: 0.50, userInfo: true)
+        _isLongPressEventTrigger = true
     }
     
     private func _startLongPressRepeatCurveAnimation() {
@@ -381,7 +392,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     private var _isEventHandled: Bool = true
     
     private func startEventHandlerTimer(with timeInterval: TimeInterval = 0.50, userInfo: Any? = nil) {
-        print("startEventHandlerTimer~~~~延迟网络请求操作-Timer开始")
+        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer开始")
         _eventHandlerTimer?.invalidate()
         _eventHandlerTimer = nil
         
@@ -390,13 +401,13 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     }
     
     private func endEventHandlerTimer() {
-        print("endEventHandlerTimer~~~~延迟网络请求操作-Timer取消 \(_quickTappedCount)")
+        print("⚡️endEventHandlerTimer~~~~延迟网络请求操作-Timer取消")
         _eventHandlerTimer?.invalidate()
         _eventHandlerTimer = nil
     }
     
     @objc private func eventHandlerTimerFire() {
-        print("startEventHandlerTimer~~~~延迟网络请求操作-Timer触发 \(_quickTappedCount)")
+        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer触发")
         if let validTimer = _eventHandlerTimer, validTimer.isValid {
             // 是否是长按触发的操作
             if let isFiredByLongPress = validTimer.userInfo as? Bool {
@@ -413,10 +424,11 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     }
     
     private func resetInnerControlProperties() {
-        print("resetInnerControlProperties~~~~重置参数")
+        print("☠️💣resetInnerControlProperties~~~~重置参数💣☠️")
         _quickTappedCount = 0
         _isEventHandled = true
         _touchesBeginZanState = nil
+        _isLongPressEventTrigger = false
     }
     
     deinit {
