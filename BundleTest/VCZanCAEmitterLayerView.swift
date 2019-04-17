@@ -27,17 +27,20 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     }
     private var _cachedBezierPaths: [CachedPath] = []
     
+    struct LayerWrapper {
+        var layer: CALayer
+        var angle: CGFloat
+    }
+    
     private var emitterLayer: CALayer {
         return contentView.layer
     }
     
+    private var _angles: [CGFloat] = [30, 60, 90, 120, 150, 180]
+    
     override func initialize() {
         contentView.backgroundColor = .clear
         backgroundColor = .clear
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
     
     override func draw(_ rect: CGRect) {
@@ -74,40 +77,75 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         return layer
     }
     
+    private func degreesToRadians(_ angle: CGFloat) -> CGFloat {
+        return (angle * CGFloat.pi) / 180
+    }
+    
+    private var random: UInt32 {
+        return max(1, arc4random_uniform(10))
+    }
+    
     func fire() {
-        var layers: [CALayer] = []
-        for _ in 0 ..< 2 {
+        var wrappers: [LayerWrapper] = []
+        
+        for i in 0 ..< 6 {
             let iconNo = arc4random_uniform(10)
             print("🌹 图片iconNo: \(iconNo)")
             if let layer = createEmitterLayer(with: "emoji_1f60\(iconNo)") {
-                layers.append(layer)
                 emitterLayer.addSublayer(layer)
+                let wrapper = LayerWrapper(layer: layer, angle: _angles[i % _angles.count])
+                wrappers.append(wrapper)
             }
         }
         
-        print("🌹 有效个数: \(layers.count)")
+        print("🌹 有效个数: \(wrappers.count)")
         
         _cachedBezierPaths.removeAll()
         
-//        let radius = width * 0.5
-        for layer in layers {
-            let random = max(2, arc4random_uniform(10))
+        let radius = width * 0.5
+        for wrapper in wrappers {
+            print("🐛 角度  \(wrapper.angle)")
+            let layer = wrapper.layer
+            // 每个象限范围内的可配置的最大x和y
+            let rangeInsideMaxX = radius * sin(degreesToRadians(wrapper.angle))
+            let rangeInsideMaxY = radius * cos(degreesToRadians(wrapper.angle))
+            // 随机百分比
+            let randomX = random
+            let randomY = random
+            let percentX = CGFloat(randomX) / 10.0
+            let percentY = CGFloat(randomY) / 10.0
+            // 随机坐标
+            let targetX = rangeInsideMaxX * percentX
+            let targetY = rangeInsideMaxY * percentY
+            // 正切值
+            let targetTan = targetY / targetX
+            // 角度
+            let targetAngle = atan(targetTan)
+            // 半径方向延伸或收缩的值
             let direction: CGFloat = random % 2 == 0 ? 1.0 : -1.0
-            let percent = CGFloat(random) / 10.0
-            let offsetX = width * 0.5 * percent * direction
-            let offsetY = height * 0.5 * percent * -1.0
-            
-            print("random: \(random)|direction: \(direction)|percent: \(percent)|offsetX: \(offsetX)|offsetY: \(offsetY)")
+            let radiusOffset: CGFloat = CGFloat(random) / 10.0 * 100.0
+            // 求偏移的x和y
+            let offsetX = radiusOffset * sin(degreesToRadians(targetAngle))
+            let offsetY = radiusOffset * cos(degreesToRadians(targetAngle))
+            // 最终值
+            let finalX = targetX + (offsetX * direction)
+            let finalY = targetY + (offsetY * direction)
+//            print("random: \(random)|direction: \(direction)|percent: \(percent)|offsetX: \(offsetX)|offsetY: \(offsetY)")
             
             let positionAnimation = CAKeyframeAnimation(keyPath: "position")
             let startPoint = layer.position
-            let endPoint = CGPoint(x: startPoint.x + offsetX, y: startPoint.y + offsetY)
+            let endPoint = CGPoint(x: finalX, y: finalY)
+            // 起始坐标和最终坐标的x、y偏移
+            let startToEndOffsetX = endPoint.x - startPoint.x
+            let startToEndOffsetY = endPoint.y - startPoint.y
+            
+            // 动画配置
             positionAnimation.values = [startPoint, endPoint]
             positionAnimation.keyTimes = [0.0, 1.0]
             positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             
-            let controlPointX = offsetX > 0 ? startPoint.x + offsetX * 0.8 : startPoint.x + offsetX * 0.8
-            let controlPointY = endPoint.y + offsetY * 0.2
+            let controlPointX = startPoint.x + startToEndOffsetX * 0.8
+            let controlPointY = endPoint.y + startToEndOffsetY * 0.2
             let controlPoint = CGPoint(x: controlPointX, y: controlPointY)
             let bezierPath = UIBezierPath()
             bezierPath.move(to: startPoint)
