@@ -114,7 +114,7 @@ class ViewController2: UIViewController {
             case .longPressFiredStart(_):
                 break
             case .longPressFiring(_):
-                break
+                zanCALayerView.fire()
             case .longPressFingerTouchUp:
                 break
             case .longPressFireEnded(_):
@@ -128,9 +128,38 @@ class ViewController2: UIViewController {
 //        let max = arr.max {  $0 < $1 }
 //        print(max)
         
-        for _ in 0..<20 {
-            print(CGFloat(arc4random_uniform(10)) / 10.0)
-        }
+//        for _ in 0..<20 {
+//            print(CGFloat(arc4random_uniform(10)) / 10.0)
+//        }
+        
+//        for _ in 0...10 {
+            let radius = view.width * 0.5
+            let angle1: CGFloat = 30.0
+            let angle2: CGFloat = 60.0
+            let rangeInsideMaxX = radius * cos(degreesToRadians(angle1))
+            let randomX = random
+            let percentX = percent(randomX)
+            let offsetX = rangeInsideMaxX * percentX
+        
+            let offsetY = offsetX * tan(degreesToRadians(angle2))
+            let randomY = random
+            let percentY = percent(randomY)
+            let rangeInsideMaxY = offsetY + percentY * (radius - offsetY)
+//            let targetY = rangeInsideMaxY * percentY
+            print("(\(offsetX), \(rangeInsideMaxY))")
+//        }
+    }
+    
+    private func degreesToRadians(_ angle: CGFloat) -> CGFloat {
+        return (angle * CGFloat.pi) / 180
+    }
+    
+    private var random: UInt32 {
+        return max(2, arc4random_uniform(10))
+    }
+    
+    private func percent(_ random: UInt32) -> CGFloat {
+        return CGFloat(random) / 10.0
     }
     
     private var _test: Bool = true
