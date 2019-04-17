@@ -8,95 +8,9 @@
 
 import UIKit
 
-class VCCAEmitterLayerWrapper {
-    
-    let layer: CAEmitterLayer
-    var beginTime: CFTimeInterval
-    
-    init(layer: CAEmitterLayer, beginTime: CFTimeInterval = 0) {
-        self.layer = layer
-        self.beginTime = beginTime
-    }
-    
-    func begin(with duration: TimeInterval = 1.0) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) { [weak self] in
-            self?.end()
-        }
-        
-        if layer.emitterCells == nil {
-            var cells: [CAEmitterCell] = []
-            for _ in 0 ..< 6 {
-                let iconNo = arc4random_uniform(10)
-                if let cell = getCAEmitterCell(with: "emoji_1f60\(iconNo)") {
-                    cells.append(cell)
-                }
-            }
-            layer.emitterCells = cells
-        }
-        
-        birthRate(with: 1.0)
-        beginTime = CACurrentMediaTime()
-        layer.beginTime = beginTime - 1
-    }
-    
-    func end() {
-//        DispatchQueue.main.async { [weak self] in
-//            guard let strongSelf = self else { return }
-//            strongSelf.beginTime = 0.0
-//            strongSelf.birthRate(with: 0.0)
-//            strongSelf.layer.emitterCells = nil
-//        }
-        beginTime = 0.0
-        birthRate(with: 0.0)
-//        layer.emitterCells = nil
-    }
-    
-    private func birthRate(with rate: Float) {
-        if let cells = layer.emitterCells {
-            for cell in cells {
-                cell.birthRate = rate
-            }
-            layer.birthRate = rate
-        }
-    }
-    
-    var timePassed: CFTimeInterval {
-        return CACurrentMediaTime() - beginTime
-    }
-    
-    var isEnded: Bool {
-        return timePassed > 1.0
-    }
-    
-    private func getCAEmitterCell(with iconName: String) -> CAEmitterCell? {
-        guard let iconImage = UIImage(named: iconName) else {
-            return nil
-        }
-        let cell = CAEmitterCell()
-        cell.contents = iconImage.cgImage
-        cell.name = iconName
-        cell.birthRate = 0.0//  每秒产生几个粒子
-        cell.lifetime = 1.5// 粒子存活的时间,以秒为单位
-        cell.lifetimeRange = 0.0
-        cell.scale = 1.0
-        
-        cell.contentsScale = UIScreen.main.scale
-        
-        cell.alphaRange = 1.0
-        cell.alphaSpeed = -1.0
-        
-        cell.yAcceleration = 450
-        
-        cell.velocity = 450
-        cell.velocityRange = 30
-        
-        cell.emissionLongitude = 3 * CGFloat.pi / 2
-        cell.emissionRange = CGFloat.pi / 2
-        
-        cell.spin = CGFloat.pi * 2
-        cell.spinRange = CGFloat.pi * 2
-        
-        return cell
+extension CGPoint {
+    var toInt: CGPoint {
+        return CGPoint(x: Int(x), y: Int(y))
     }
 }
 
@@ -105,82 +19,133 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     // MARK: - View
     @IBOutlet var contentView: UIView!
     
-    private var _dequeLayerMask: UInt64 = 0
-    private var _emitterLayerQueue: [VCCAEmitterLayerWrapper] = []
-    
-    private func createEmitterLayer() -> CAEmitterLayer {
-        let layer = CAEmitterLayer()
-        layer.name = String("CAEmitterLayer_\(_dequeLayerMask)")
-        layer.emitterSize = CGSize(width: 30, height: 30)
-        layer.masksToBounds = false
-        layer.renderMode = kCAEmitterLayerAdditive
-        _dequeLayerMask += 1
-        return layer
+    struct CachedPath {
+        var path: UIBezierPath
+        var startPoint: CGPoint
+        var controlPoint: CGPoint
+        var endPoint: CGPoint
     }
+    private var _cachedBezierPaths: [CachedPath] = []
     
-    private func dequeEmitterLayer() -> VCCAEmitterLayerWrapper {
-        if _emitterLayerQueue.isEmpty {
-            let layer = VCCAEmitterLayerWrapper(layer: createEmitterLayer())
-            _emitterLayerQueue.append(layer)
-            return layer
-        } else {
-            for layer in _emitterLayerQueue {
-                if layer.isEnded {
-                    return layer
-                }
-            }
-            if _emitterLayerQueue.count >= 3 {
-                if let timePassedMaxLayer = (_emitterLayerQueue.max { return $0.timePassed < $1.timePassed }) {
-                    return timePassedMaxLayer
-                }
-            }
-            let layer = VCCAEmitterLayerWrapper(layer: createEmitterLayer())
-            _emitterLayerQueue.append(layer)
-            return layer
-        }
-    }
-    
-    private func getBirthRateNotZeroLayer() -> CAEmitterLayer? {
-        for layer in _emitterLayerQueue {
-            if layer.layer.birthRate > 0 {
-                return layer.layer
-            }
-        }
-        return nil
+    private var emitterLayer: CALayer {
+        return contentView.layer
     }
     
     override func initialize() {
+        contentView.backgroundColor = .clear
         backgroundColor = .clear
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        for layer in _emitterLayerQueue {
-            layer.layer.position = contentView.center
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        print("🖌draw rect🖌")
+        
+        for path in _cachedBezierPaths {
+            print("\(path.startPoint.toInt) - \(path.endPoint.toInt) : \(path.controlPoint.toInt)")
+            
+            UIColor.black.setFill()
+            UIRectFill(CGRect(origin: path.startPoint.toInt, size: CGSize(width: 4, height: 4)))
+            
+            UIColor.black.setFill()
+            UIRectFill(CGRect(origin: path.endPoint.toInt, size: CGSize(width: 4, height: 4)))
+            
+            UIColor.yellow.setFill()
+            UIRectFill(CGRect(origin: path.controlPoint.toInt, size: CGSize(width: 4, height: 4)))
+            
+            UIColor.red.set()
+            path.path.lineWidth = 1.0
+            path.path.lineCapStyle = CGLineCap.round
+            path.path.lineJoinStyle = CGLineJoin.round
+            path.path.stroke()
         }
     }
     
+    private func createEmitterLayer(with icon: String) -> CALayer? {
+        guard let image = UIImage(named: icon) else { return nil }
+        let layer = CALayer()
+        layer.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+        layer.position = contentView.center
+        layer.contents = image.cgImage
+        layer.contentsScale = UIScreen.main.nativeScale
+        return layer
+    }
+    
     func fire() {
-        let layerWrapper = dequeEmitterLayer()
-        if layerWrapper.layer.superlayer == nil {
-            contentView.layer.addSublayer(layerWrapper.layer)
-            setNeedsLayout()
+        var layers: [CALayer] = []
+        for _ in 0 ..< 2 {
+            let iconNo = arc4random_uniform(10)
+            print("🌹 图片iconNo: \(iconNo)")
+            if let layer = createEmitterLayer(with: "emoji_1f60\(iconNo)") {
+                layers.append(layer)
+                emitterLayer.addSublayer(layer)
+            }
         }
-        layerWrapper.begin()
+        
+        print("🌹 有效个数: \(layers.count)")
+        
+        _cachedBezierPaths.removeAll()
+        
+//        let radius = width * 0.5
+        for layer in layers {
+            let random = max(2, arc4random_uniform(10))
+            let direction: CGFloat = random % 2 == 0 ? 1.0 : -1.0
+            let percent = CGFloat(random) / 10.0
+            let offsetX = width * 0.5 * percent * direction
+            let offsetY = height * 0.5 * percent * -1.0
+            
+            print("random: \(random)|direction: \(direction)|percent: \(percent)|offsetX: \(offsetX)|offsetY: \(offsetY)")
+            
+            let positionAnimation = CAKeyframeAnimation(keyPath: "position")
+            let startPoint = layer.position
+            let endPoint = CGPoint(x: startPoint.x + offsetX, y: startPoint.y + offsetY)
+            positionAnimation.values = [startPoint, endPoint]
+            positionAnimation.keyTimes = [0.0, 1.0]
+            positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            
+            let controlPointX = offsetX > 0 ? startPoint.x + offsetX * 0.8 : startPoint.x + offsetX * 0.8
+            let controlPointY = endPoint.y + offsetY * 0.2
+            let controlPoint = CGPoint(x: controlPointX, y: controlPointY)
+            let bezierPath = UIBezierPath()
+            bezierPath.move(to: startPoint)
+            bezierPath.addQuadCurve(to: endPoint, controlPoint: controlPoint)
+            _cachedBezierPaths.append(CachedPath(path: bezierPath, startPoint: startPoint, controlPoint: controlPoint, endPoint: endPoint))
+            positionAnimation.path = bezierPath.cgPath
+            
+            let alphaAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "opacity")
+            alphaAnimation.values = [0.9, 1.0, 0.0]
+            alphaAnimation.keyTimes = [0.0, 0.6, 1.0]
+            
+            let groupAnimation = CAAnimationGroup()
+            groupAnimation.animations = [positionAnimation, alphaAnimation]
+            groupAnimation.duration = 1.0
+            groupAnimation.isRemovedOnCompletion = true
+            groupAnimation.delegate = self
+            
+            groupAnimation.setValue(layer, forKey: "layerName")
+            layer.add(groupAnimation, forKey: "groupAnimation")
+        }
+        
         setNeedsDisplay()
     }
     
     func stop() {
-//        let layer = getBirthRateNotZeroLayer()
-//        birthRate(with: layer, rate: 0)
+        
+    }
+}
+
+extension VCZanCAEmitterLayerView: CAAnimationDelegate {
+    func animationDidStart(_ anim: CAAnimation) {
+        
     }
     
-//    private func birthRate(with emitterLayer: CAEmitterLayer?, rate: Float) {
-//        if let layer = emitterLayer, let cells = layer.emitterCells {
-//            for cell in cells {
-//                cell.birthRate = rate
-//            }
-//            layer.birthRate = rate
-//        }
-//    }
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if let animationLayer = anim.value(forKey: "layerName") as? CALayer {
+            animationLayer.removeAnimation(forKey: "groupAnimation")
+            animationLayer.removeFromSuperlayer()
+        }
+    }
 }

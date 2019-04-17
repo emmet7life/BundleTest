@@ -127,6 +127,10 @@ class ViewController2: UIViewController {
 //        let arr: [Int] = [1,2,3]
 //        let max = arr.max {  $0 < $1 }
 //        print(max)
+        
+        for _ in 0..<20 {
+            print(CGFloat(arc4random_uniform(10)) / 10.0)
+        }
     }
     
     private var _test: Bool = true
