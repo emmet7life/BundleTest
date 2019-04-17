@@ -107,18 +107,18 @@ class ViewController2: UIViewController {
             print("userTappedActionBlock~~~~"+type.flagString)
             
             switch type {
-            case .quickTapping(_, _):
-                zanCALayerView.fire()
+            case .quickTapping(_, let count):
+                zanCALayerView.fire(count)
             case .quickTappedFired:
                 zanCALayerView.stop()
-            case .longPressFiredStart(_):
-                break
-            case .longPressFiring(_):
-                zanCALayerView.fire()
+            case .longPressFiredStart(let count):
+                zanCALayerView.fire(count)
+            case .longPressFiring(let count):
+                zanCALayerView.fire(count)
             case .longPressFingerTouchUp:
                 break
             case .longPressFireEnded(_):
-                break
+                zanCALayerView.stop()
             }
         }
         

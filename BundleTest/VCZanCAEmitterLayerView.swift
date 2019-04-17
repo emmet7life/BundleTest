@@ -43,6 +43,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     override func initialize() {
         contentView.backgroundColor = .clear
         backgroundColor = .clear
+        emitterLayer.addSublayer(_numberLayer)
     }
     
     override func draw(_ rect: CGRect) {
@@ -91,7 +92,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         return max(1, arc4random_uniform(10))
     }
     
-    func fire() {
+    func fire(_ zanCount: Int = 0) {
         var wrappers: [LayerWrapper] = []
         
         for i in 0 ..< 6 {
@@ -166,11 +167,88 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             layer.add(groupAnimation, forKey: "groupAnimation")
         }
         
+        // 创建文本组件
+        if zanCount > 0 && zanCount <= 1000 {
+            _numberLayer.backgroundColor = UIColor.yellow.cgColor
+            _numberLayer.height = 30.0
+            let numberLayerWidth = _createNumberLayers(with: zanCount)
+            _numberLayer.width = numberLayerWidth
+            _numberLayer.position = emitterLayer.center
+        } else {
+            _numberLayer.removeAllSublayers()
+        }
+        
         setNeedsDisplay()
     }
     
-    func stop() {
+    private var _numberLayer: CALayer = CALayer()
+    
+    fileprivate func _createNumberLayers(with zanCount: Int) -> CGFloat {
+        _numberLayer.removeAllSublayers()
         
+        var x: CGFloat = 0.0
+        var count: Int = 0
+        let xOffset: CGFloat = 3.0
+        
+        let text = String(zanCount)
+        for character in text {
+            if let image = UIImage(named: String(character)) {
+                let layer = CALayer()
+                layer.contents = image.cgImage
+                layer.contentMode = .scaleAspectFit
+                layer.size = CGSize(width: 12, height: 18)
+                layer.left = x
+                _numberLayer.addSublayer(layer)
+                
+                x += layer.width
+                x += xOffset
+                layer.centerY = _numberLayer.height / 2
+                
+                count += 1
+            }
+        }
+        
+        if zanCount <= 50 {
+            if let image = UIImage(named: "太棒啦!") {
+                let layer = CALayer()
+                layer.contents = image.cgImage
+                layer.contentMode = .scaleAspectFit
+                layer.size = CGSize(width: 80, height: 24)
+                layer.left = x
+                _numberLayer.addSublayer(layer)
+                
+                x += layer.width
+                x += xOffset
+                layer.centerY = _numberLayer.height / 2
+                
+                count += 1
+            }
+        } else if zanCount <= 1000 {
+            if let image = UIImage(named: "超满意~") {
+                let layer = CALayer()
+                layer.contents = image.cgImage
+                layer.contentMode = .scaleAspectFit
+                layer.size = CGSize(width: 80, height: 24)
+                layer.left = x
+                _numberLayer.addSublayer(layer)
+                
+                x += layer.width
+                x += xOffset
+                layer.centerY = _numberLayer.height / 2
+                
+                count += 1
+            }
+        }
+        
+        if count > 1 {
+            x -= xOffset
+        }
+        
+        return x
+    }
+    
+    func stop() {
+        _numberLayer.removeAllSublayers()
     }
 }
 
