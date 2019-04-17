@@ -46,6 +46,8 @@
 		96669D0121D0D63B006E3423 /* unfollowload.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CF221D0D63B006E3423 /* unfollowload.bundle */; };
 		9683DE2B215E5E4000547652 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9683DE27215E5E4000547652 /* Post.storyboard */; };
 		9683DE2F215E5E9000547652 /* VCPostAlterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9683DE2E215E5E9000547652 /* VCPostAlterViewController.swift */; };
+		96D8D0D22266C6620070CB7F /* VCZanCAEmitterLayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */; };
+		96D8D0D42266C67F0070CB7F /* VCZanCAEmitterLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D8D0D32266C67F0070CB7F /* VCZanCAEmitterLayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +113,8 @@
 		96669CF221D0D63B006E3423 /* unfollowload.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = unfollowload.bundle; path = Lottie/unfollowload.bundle; sourceTree = "<group>"; };
 		9683DE28215E5E4000547652 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Post.storyboard; sourceTree = "<group>"; };
 		9683DE2E215E5E9000547652 /* VCPostAlterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCPostAlterViewController.swift; sourceTree = "<group>"; };
+		96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VCZanCAEmitterLayerView.xib; sourceTree = "<group>"; };
+		96D8D0D32266C67F0070CB7F /* VCZanCAEmitterLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCZanCAEmitterLayerView.swift; sourceTree = "<group>"; };
 		A8126059DD19BFD81546D7F2 /* Pods-BundleTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BundleTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-BundleTest/Pods-BundleTest.release.xcconfig"; sourceTree = "<group>"; };
 		C05A2BF9E37DB2E0700B11AE /* Pods-BundleTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BundleTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BundleTest/Pods-BundleTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -225,6 +229,7 @@
 				9617A3AB226431CC00408228 /* VCSuperLikeButton.swift */,
 				9617A3AD22645CE500408228 /* VCLoadFromNibBaseView.swift */,
 				9617A3AF22645D4F00408228 /* VCSimpleAnimateLabel.swift */,
+				96D8D0D32266C67F0070CB7F /* VCZanCAEmitterLayerView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 			children = (
 				9617A3B722646B4900408228 /* VCSuperLikeButton.xib */,
 				9617A3B52264659C00408228 /* VCSimpleAnimateLabel.xib */,
+				96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -408,6 +414,7 @@
 				96669CF921D0D63B006E3423 /* follow_red.bundle in Resources */,
 				96669CFF21D0D63B006E3423 /* trash.bundle in Resources */,
 				9617A3B62264659C00408228 /* VCSimpleAnimateLabel.xib in Resources */,
+				96D8D0D22266C6620070CB7F /* VCZanCAEmitterLayerView.xib in Resources */,
 				9617A3B822646B4900408228 /* VCSuperLikeButton.xib in Resources */,
 				96130B8B215B5C5D00D450DB /* Assets.xcassets in Resources */,
 				96130B86215B5C5B00D450DB /* Main.storyboard in Resources */,
@@ -480,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96D8D0D42266C67F0070CB7F /* VCZanCAEmitterLayerView.swift in Sources */,
 				96669CE221D0D1A4006E3423 /* VCFollowButton.swift in Sources */,
 				9617A3AE22645CE500408228 /* VCLoadFromNibBaseView.swift in Sources */,
 				9608A0E52253075C00288B1B /* String+Extension.swift in Sources */,

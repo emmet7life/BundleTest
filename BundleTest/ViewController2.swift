@@ -75,6 +75,10 @@ class ViewController2: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss SSS"
         
+        let zanCALayerView = VCZanCAEmitterLayerView()
+        zanCALayerView.frame = view.bounds
+        view.addSubview(zanCALayerView)
+        
 //        var isUp = false
         let data = VCItemData()
         let likeBtn = VCSuperLikeButton()
@@ -101,9 +105,28 @@ class ViewController2: UIViewController {
 //            likeBtn.width = newWidth
             
             print("userTappedActionBlock~~~~"+type.flagString)
+            
+            switch type {
+            case .quickTapping(_, _):
+                zanCALayerView.fire()
+            case .quickTappedFired:
+                zanCALayerView.stop()
+            case .longPressFiredStart(_):
+                break
+            case .longPressFiring(_):
+                break
+            case .longPressFingerTouchUp:
+                break
+            case .longPressFireEnded(_):
+                break
+            }
         }
         
 //        test()
+        
+//        let arr: [Int] = [1,2,3]
+//        let max = arr.max {  $0 < $1 }
+//        print(max)
     }
     
     private var _test: Bool = true
