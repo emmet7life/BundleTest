@@ -69,8 +69,8 @@ class ViewController2: UIViewController {
 //        let dateFormatter = DateFormatter()
 //        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss SSS"
         
-        let position = VCZanCAEmitterLayerView.OutViewPositionInfo()
-        let zanCALayerView = VCZanCAEmitterLayerView(position: position)
+        let option = VCZanCAEmitterLayerView.Option()
+        let zanCALayerView = VCZanCAEmitterLayerView(option: option)
         zanCALayerView.frame = view.bounds
         view.addSubview(zanCALayerView)
         
