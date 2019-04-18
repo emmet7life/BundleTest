@@ -72,6 +72,7 @@ class ViewController2: UIViewController {
         let zanCALayerView = VCZanCAEmitterLayerView.shared
         var option = zanCALayerView.option
         option.isDebug = isDebug
+        zanCALayerView.updateOption(with: option)
         
         let view2 = UIView()
         view2.backgroundColor = .darkGray

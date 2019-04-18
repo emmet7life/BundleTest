@@ -116,7 +116,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     
     private(set) var option: Option = Option()
     
-    func updatePosition(with option: Option) {
+    func updateOption(with option: Option) {
         self.option = option
     }
     
