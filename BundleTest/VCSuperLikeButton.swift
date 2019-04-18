@@ -19,6 +19,15 @@ protocol VCZanItemDataProtocol: class {
 }
 
 extension VCZanItemDataProtocol {
+    
+    var visibleText: String {
+        if zanNum <= 0 {
+            return ""
+        } else {
+            return "\(zanNum)"
+        }
+    }
+    
     // 赞
     func increaseZanNum() {
         interfacedZanNum += 1

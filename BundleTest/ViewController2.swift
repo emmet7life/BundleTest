@@ -14,13 +14,13 @@ class VCItemData: VCZanItemDataProtocol {
     var zanNum: Int = 0
     var interfacedZanNum: Int = 0
     
-    var visibleText: String {
-        if zanNum <= 0 {
-            return ""
-        } else {
-            return "\(zanNum)"
-        }
-    }
+//    var visibleText: String {
+//        if zanNum <= 0 {
+//            return ""
+//        } else {
+//            return "\(zanNum)"
+//        }
+//    }
     
     var isZanNumUpdated: Bool = false
     
@@ -32,7 +32,7 @@ class VCItemData: VCZanItemDataProtocol {
 
 class ViewController2: UIViewController {
 
-    var isDebug = true
+    var isDebug = false
     // 最后的请求是不是赞，请求结束，置为nil
     var isLastRequestIsZanAction: Bool? = nil
     
@@ -73,12 +73,10 @@ class ViewController2: UIViewController {
         option.isDebug = isDebug
         
         let zanCALayerView = VCZanCAEmitterLayerView(option: option)
-        zanCALayerView.frame = view.bounds
-        view.addSubview(zanCALayerView)
         
         let view2 = UIView()
         view2.backgroundColor = .darkGray
-        view2.frame = CGRect(x: 150, y: 300, width: 100, height: 50)
+        view2.frame = CGRect(x: 150, y: 150, width: 100, height: 50)
         view.addSubview(view2)
         
         let rectView = UIView()

@@ -196,10 +196,26 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         return max(option.minRadiusPercentRandom, arc4random_uniform(10))
     }
     
+    fileprivate func addToWindowIfNeeded() {
+        if superview == nil {
+            if let keyWindow = UIApplication.shared.keyWindow {
+                keyWindow.addSubview(self)
+                keyWindow.bringSubview(toFront: self)
+                frame = keyWindow.bounds
+            }
+        }
+    }
+    
+    fileprivate func removeFromWindowIfNeeded() {
+        if superview != nil {
+            removeFromSuperview()
+        }
+    }
+    
     // 发射粒子
     // - zanCount: 粒子个数
     func fire(_ zanCount: Int) {
-        
+        addToWindowIfNeeded()
         var wrappers: [LayerWrapper] = []
         
         for i in 0 ..< option.oneShotIconEmitterCount {
@@ -377,6 +393,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     func stop() {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + option.numberDismissDelayTime) { [weak self] in
             self?._numberLayer.removeAllSublayers()
+            self?.removeFromWindowIfNeeded()
         }
     }
 }
