@@ -332,7 +332,9 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     }
     
     func stop() {
-        _numberLayer.removeAllSublayers()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.15) { [weak self] in
+            self?._numberLayer.removeAllSublayers()
+        }
     }
 }
 

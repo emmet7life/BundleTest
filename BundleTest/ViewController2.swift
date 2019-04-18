@@ -33,6 +33,33 @@ class VCItemData: VCZanItemDataProtocol {
 class ViewController2: UIViewController {
 
     var isDebug = false
+    // 最后的请求是不是赞，请求结束，置为nil
+    var isLastRequestIsZanAction: Bool? = nil
+    
+    // 模拟网络请求
+    // delay: 延迟多久执行
+    // duration: 执行时间
+    fileprivate func simulateZanReq(delay: TimeInterval = 0.0, duration: TimeInterval = 6.0, isZanReq: Bool) {
+        isLastRequestIsZanAction = isZanReq
+        SwiftTimer.debounce(interval: .fromSeconds(6.0), identifier: className()) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.isLastRequestIsZanAction = nil
+            print("🌍🌍🌍🌍请求完成✅(\(isZanReq))🌍🌍🌍🌍")
+        }
+    }
+    
+    fileprivate func cancelReq(_ isZanReq: Bool) {
+        print("🌍🌍🌍🌍请求取消❌(\(isZanReq))🌍🌍🌍🌍")
+        SwiftTimer.cancelThrottlingTimer(identifier: className())
+    }
+    
+    fileprivate func cancelReqIfNeeded(isZan: Bool) {
+        // 上一次和这一次请求类型不一致，则取消上一次请求
+        if let isLastZanReq = isLastRequestIsZanAction, isZan != isLastZanReq {
+            print("❌取消上一次的\(isLastZanReq)，本次操作为\(isZan)❌")
+            cancelReq(isLastZanReq)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +109,7 @@ class ViewController2: UIViewController {
         let newWidth = likeBtn.setItemData(with: data)
         likeBtn.width = newWidth
         
-        likeBtn.userTappedActionBlock = { type in
+        likeBtn.userTappedActionBlock = { [weak self] type in
             
             let frame1 = likeBtn.convertRectToWindow()
             let frame2 = likeBtn.praiseImageView.convertRectToWindow()
@@ -98,18 +125,54 @@ class ViewController2: UIViewController {
             switch type {
             case .quickTapping(_, let count, let isZaned):
                 if isZaned {
+                    // 赞
                     zanCALayerView.fire(count)
+                    self?.cancelReqIfNeeded(isZan: true)
+                } else {
+                    // 取消赞
+                    self?.cancelReqIfNeeded(isZan: false)
                 }
-            case .quickTappedFired:
+            case .quickTappedFired(let isZaned, let isNeedRequest):
+                // (快速连续点击)动作真正的结束啦
                 zanCALayerView.stop()
+                if isNeedRequest {
+                    // 需要网络请求
+                    if isZaned {
+                        // 赞
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 赞请求")
+                        self?.simulateZanReq(isZanReq: true)
+                    } else {
+                        // 取消赞
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 取消赞请求")
+                        self?.simulateZanReq(isZanReq: false)
+                    }
+                }
             case .longPressFiredStart(let count):
+                // 赞
                 zanCALayerView.fire(count)
+                self?.cancelReqIfNeeded(isZan: true)
             case .longPressFiring(let count):
+                // 赞
                 zanCALayerView.fire(count)
+                self?.cancelReqIfNeeded(isZan: true)
             case .longPressFingerTouchUp:
+                // 可忽略此状态
                 break
-            case .longPressFireEnded(_):
+            case .longPressFireEnded(_, let isZaned, let isNeedRequest):
+                // (长按)动作真正的结束啦
                 zanCALayerView.stop()
+                if isNeedRequest {
+                    // 需要网络请求
+                    if isZaned {
+                        // 赞
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 赞请求")
+                        self?.simulateZanReq(isZanReq: true)
+                    } else {
+                        // 取消赞
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 取消赞请求")
+                        self?.simulateZanReq(isZanReq: false)
+                    }
+                }
             }
         }
         

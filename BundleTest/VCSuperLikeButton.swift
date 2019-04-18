@@ -94,21 +94,21 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     private(set) var itemData: VCZanItemDataProtocol? = nil
     
     enum VCActionTriggerReason {
-        case quickTapping(UInt, Int, Bool)        // 快速点击进行中
-        case quickTappedFired                       // 快速点击停止，应触发网络事件
-        case longPressFiredStart(Int)             // 长按事件开始
-        case longPressFiring(Int)                   // 长按事件进行中
-        case longPressFingerTouchUp          // 长按事件手指松开
-        case longPressFireEnded(Int)            // 长按事件结束
+        case quickTapping(UInt, Int, Bool)               // 快速点击进行中
+        case quickTappedFired(Bool, Bool)             // 快速点击停止，应触发网络事件
+        case longPressFiredStart(Int)                       // 长按事件开始
+        case longPressFiring(Int)                            // 长按事件进行中
+        case longPressFingerTouchUp                    // 长按事件手指松开
+        case longPressFireEnded(Int, Bool, Bool)    // 长按事件结束
         
         var flagString: String {
             switch self {
-            case .quickTapping(_, let count, let isZaned): return "👆1️⃣quickTapping with \(count), \(isZaned)"
-            case .quickTappedFired: return "👆2️⃣quickTappedFired"
-            case .longPressFiredStart(let count): return "✋3️⃣longPressFiredStart with \(count)"
-            case .longPressFiring(let count): return "✋4️⃣longPressFiring with \(count)"
+            case .quickTapping(_, let count, let isZaned): return "👆1️⃣quickTapping with count \(count), isZaned \(isZaned)"
+            case .quickTappedFired(let isZaned, let isNeedRequest): return "👆2️⃣quickTappedFired with isZaned \(isZaned), isNeedRequest \(isNeedRequest)"
+            case .longPressFiredStart(let count): return "✋3️⃣longPressFiredStart with count \(count)"
+            case .longPressFiring(let count): return "✋4️⃣longPressFiring with count \(count)"
             case .longPressFingerTouchUp: return "✋5️⃣longPressFingerTouchUp"
-            case .longPressFireEnded(let count): return "✋6️⃣longPressFireEnded with \(count)"
+            case .longPressFireEnded(let count, let isZaned, let isNeedRequest): return "✋6️⃣longPressFireEnded with count \(count), isZaned \(isZaned), isNeedRequest \(isNeedRequest)"
             }
         }
     }
@@ -440,10 +440,15 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         if let validTimer = _eventHandlerTimer, validTimer.isValid {
             // 是否是长按触发的操作
             if let isFiredByLongPress = validTimer.userInfo as? Bool {
+                var isNeedRequest = false
+                // 初始状态与最后的状态不一致时，才发网络请求
+                if let beginZanState = _touchesBeginZanState, let data = itemData, beginZanState != data.isZaned {
+                    isNeedRequest = true
+                }
                 if isFiredByLongPress {
-                    userTappedActionBlock?(.longPressFireEnded(itemData?.interfacedZanNum ?? 0))
+                    userTappedActionBlock?(.longPressFireEnded(itemData?.interfacedZanNum ?? 0, itemData?.isZaned ?? false, isNeedRequest))
                 } else {
-                    userTappedActionBlock?(.quickTappedFired)
+                    userTappedActionBlock?(.quickTappedFired(itemData?.isZaned ?? false, isNeedRequest))
                 }
             }
         }
