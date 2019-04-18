@@ -64,7 +64,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     
     // MARK: - Option
     struct LayoutOption {
-        var isDebug: Bool = true
+        var isDebug: Bool = false
         var layoutDirection: VCLayoutDirection = .leading
         var directionLeadingPadding: CGFloat = 8.0
         var directionTrailingPadding: CGFloat = 8.0
@@ -84,15 +84,18 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     // MARK: - Data
     var options = LayoutOption() {
         didSet {
-            
+            updateDebugLayer()
+            if let data = itemData {
+                setItemData(with: data, animated: false)
+            }
         }
     }
     
     private(set) var itemData: VCZanItemDataProtocol? = nil
     
     enum VCActionTriggerReason {
-        case quickTapping(UInt, Int)        // 快速点击进行中
-        case quickTappedFired                // 快速点击停止，应触发网络事件
+        case quickTapping(UInt, Int, Bool)        // 快速点击进行中
+        case quickTappedFired                       // 快速点击停止，应触发网络事件
         case longPressFiredStart(Int)             // 长按事件开始
         case longPressFiring(Int)                   // 长按事件进行中
         case longPressFingerTouchUp          // 长按事件手指松开
@@ -100,7 +103,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         
         var flagString: String {
             switch self {
-            case .quickTapping(_, let count): return "👆1️⃣quickTapping with \(count)"
+            case .quickTapping(_, let count, let isZaned): return "👆1️⃣quickTapping with \(count), \(isZaned)"
             case .quickTappedFired: return "👆2️⃣quickTappedFired"
             case .longPressFiredStart(let count): return "✋3️⃣longPressFiredStart with \(count)"
             case .longPressFiring(let count): return "✋4️⃣longPressFiring with \(count)"
@@ -180,10 +183,8 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         return options.directionLeadingPadding + options.directionTrailingPadding
     }
     
-    override func initialize() {
-        
+    private func updateDebugLayer() {
         if options.isDebug {
-            backgroundColor = .yellow
             contentView.layer.borderColor = UIColor.black.cgColor
             contentView.layer.borderWidth = 0.5
             
@@ -192,8 +193,15 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             
             praiseLabel.layer.borderColor = UIColor.green.cgColor
             praiseLabel.layer.borderWidth = 0.5
+        } else {
+            contentView.layer.borderWidth = 0.0
+            praiseImageView.layer.borderWidth = 0.0
+            praiseLabel.layer.borderWidth = 0.0
         }
-        
+    }
+    
+    override func initialize() {
+        updateDebugLayer()
         contentView.isUserInteractionEnabled = true
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -309,7 +317,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                     _repeatCurveAnimation(with: praisedImageView)
                 }
             }
-            userTappedActionBlock?(.quickTapping(_quickTappedCount, data.interfacedZanNum))
+            userTappedActionBlock?(.quickTapping(_quickTappedCount, data.interfacedZanNum, data.isZaned))
             // 2. 网络请求任务不立即执行，延迟一定时间，交给Timer执行
             startEventHandlerTimer(with: 0.50, userInfo: false)
         }

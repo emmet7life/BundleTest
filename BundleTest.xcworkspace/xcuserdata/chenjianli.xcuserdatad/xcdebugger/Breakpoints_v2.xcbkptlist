@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BundleTest/VCZanCAEmitterLayerView.swift"
-            timestampString = "577265345.335716"
+            filePath = "BundleTest/ViewController2.swift"
+            timestampString = "577268113.9910769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "fire(_:)"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BundleTest/VCZanCAEmitterLayerView.swift"
-            timestampString = "577265345.335791"
+            filePath = "BundleTest/VCSuperLikeButton.swift"
+            timestampString = "577268113.991541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "fire(_:)"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "_layout(with:animated:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

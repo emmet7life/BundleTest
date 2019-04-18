@@ -78,6 +78,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         var zanContainerFrame: CGRect = CGRect.zero
         var zanIconFrame: CGRect = CGRect.zero
         var type: NumberPositionType = VCZanCAEmitterLayerView.defaultLeftTopType
+        var isDebug: Bool = false
     }
     
     private var _xCosAngles: [CGFloat] = [0, 30, 60, 120, 150, 180]
@@ -120,7 +121,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         print("🖌draw rect🖌")
-        
+        guard position.isDebug else { return }
         for path in _cachedBezierPaths {
             print("\(path.startPoint.toInt) - \(path.endPoint.toInt) : \(path.controlPoint.toInt)")
             
@@ -163,7 +164,8 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         return max(1, arc4random_uniform(10))
     }
     
-    func fire(_ zanCount: Int = 0) {
+    func fire(_ zanCount: Int) {
+        
         var wrappers: [LayerWrapper] = []
         
         for i in 0 ..< 6 {
@@ -239,8 +241,10 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         }
         
         // 创建文本组件
-        if zanCount > 0 && zanCount <= 1000 {
-            _numberLayer.backgroundColor = UIColor.yellow.cgColor
+        if zanCount > 1 && zanCount <= 1000 {
+            if position.isDebug {
+                _numberLayer.backgroundColor = UIColor.yellow.cgColor
+            }
             _numberLayer.height = 30.0
             let numberLayerWidth = _createNumberLayers(with: zanCount)
             _numberLayer.width = numberLayerWidth
