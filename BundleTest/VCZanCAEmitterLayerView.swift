@@ -45,6 +45,8 @@ extension CGRect {
 }
 
 class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
+    
+    static let shared = VCZanCAEmitterLayerView(option: VCZanCAEmitterLayerView.Option())
 
     // MARK: - View
     @IBOutlet var contentView: UIView!

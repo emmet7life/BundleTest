@@ -69,10 +69,9 @@ class ViewController2: UIViewController {
 //        let dateFormatter = DateFormatter()
 //        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss SSS"
         
-        var option = VCZanCAEmitterLayerView.Option()
+        let zanCALayerView = VCZanCAEmitterLayerView.shared
+        var option = zanCALayerView.option
         option.isDebug = isDebug
-        
-        let zanCALayerView = VCZanCAEmitterLayerView(option: option)
         
         let view2 = UIView()
         view2.backgroundColor = .darkGray
