@@ -99,15 +99,14 @@ class ViewController2: UIViewController {
         
         var options = likeBtn.options
         options.isDebug = isDebug
-        options.isFixedWidth = false
+        options.isFixedWidth = true
         options.layoutDirection = .trailing
         likeBtn.options = options
         
         view2.addSubview(likeBtn)
         
         let data = VCItemData()
-        let newWidth = likeBtn.setItemData(with: data)
-        likeBtn.width = newWidth
+        likeBtn.setItemData(with: data)
         
         likeBtn.userTappedActionBlock = { [weak self] type in
             

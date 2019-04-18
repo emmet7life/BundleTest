@@ -82,6 +82,8 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         var isFixedWidth: Bool = true
         var animateLabelOptions: VCSimpleAnimateLabel.Options = VCSimpleAnimateLabel.Options()
         var adjustNumberTextWidthForVisualStable: Bool = true
+        var praiseIconName: String = "ic_topic_like"
+        var praisedIconName: String = "ic_topic_liked"
     }
     
     // MARK: - View
@@ -126,7 +128,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     
     // MARK: - Func API
     @discardableResult
-    func setText(with text: String, isUp: Bool, animated: Bool) -> CGFloat {
+    fileprivate func setText(with text: String, isUp: Bool, animated: Bool) -> CGFloat {
         return praiseLabel.setText(with: text, isUp: isUp, animated: animated)
     }
     
@@ -134,6 +136,12 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     func setItemData(with data: VCZanItemDataProtocol, animated: Bool = false) -> CGFloat {
         itemData = data
         let newWidth = _layout(with: data, animated: animated)
+        if !options.isFixedWidth {
+            if newWidth != width {
+                width = newWidth
+            }
+        }
+        layoutIfNeeded()
         _updatePraiseImage(with: data.isZaned, animated)
         return newWidth
     }
@@ -216,10 +224,10 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         contentView.backgroundColor = .clear
         
         praiseImageView.clipsToBounds = false
-        praiseImageView.image = UIImage(named: "ic_topic_like")
+        praiseImageView.image = UIImage(named: options.praiseIconName)
         contentView.addSubview(praiseImageView)
         
-        praisedImageView.image = UIImage(named: "ic_topic_liked")
+        praisedImageView.image = UIImage(named: options.praisedIconName)
         praiseImageView.addSubview(praisedImageView)
         
         praiseLabel.height = contentView.height
@@ -318,9 +326,10 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                     data.isZaned = !data.isZaned
                     data.isZaned ? data.increaseZanNum() : data.decreaseZanNum()
 //                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
-                    _layout(with: data, animated: true)
+//                    _layout(with: data, animated: true)
+                    setItemData(with: data, animated: true)
                     print("touchesEnded~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
-                    _updatePraiseImage(with: data.isZaned, true)
+//                    _updatePraiseImage(with: data.isZaned, true)
                 } else {
                     // 不停的从1.0->1.5->1.0->1.5...
                     data.interfacedZanNum += 1
@@ -375,9 +384,10 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                     data.isZaned = true
                     data.increaseZanNum()
 //                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
-                    _layout(with: data, animated: true)
+//                    _layout(with: data, animated: true)
+                    setItemData(with: data, animated: true)
                     print("longPressDetectTimerFire~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
-                    _updatePraiseImage(with: data.isZaned, true)
+//                    _updatePraiseImage(with: data.isZaned, true)
                 } else {
                     itemData?.interfacedZanNum += 1
                 }
