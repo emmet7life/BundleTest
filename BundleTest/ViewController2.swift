@@ -32,7 +32,7 @@ class VCItemData: VCZanItemDataProtocol {
 
 class ViewController2: UIViewController {
 
-    var isDebug = false
+    var isDebug = true
     // 最后的请求是不是赞，请求结束，置为nil
     var isLastRequestIsZanAction: Bool? = nil
     
@@ -176,7 +176,7 @@ class ViewController2: UIViewController {
             }
         }
         
-        view.bringSubview(toFront: zanCALayerView)
+//        view.bringSubview(toFront: zanCALayerView)
         
 //        for _ in 0..<20 {
 //            print(CGFloat(arc4random_uniform(10)) / 10.0)
