@@ -308,7 +308,8 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                 if state1 || state2 {
                     data.isZaned = !data.isZaned
                     data.isZaned ? data.increaseZanNum() : data.decreaseZanNum()
-                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
+//                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
+                    _layout(with: data, animated: true)
                     print("touchesEnded~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
                     _updatePraiseImage(with: data.isZaned, true)
                 } else {
@@ -364,7 +365,8 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                 if state1 || state2 {
                     data.isZaned = true
                     data.increaseZanNum()
-                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
+//                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
+                    _layout(with: data, animated: true)
                     print("longPressDetectTimerFire~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
                     _updatePraiseImage(with: data.isZaned, true)
                 } else {

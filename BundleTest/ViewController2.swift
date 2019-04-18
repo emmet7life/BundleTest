@@ -9,9 +9,9 @@
 import UIKit
 
 class VCItemData: VCZanItemDataProtocol {
-    var isZaned: Bool = false
     
-    var zanNum: Int = 3
+    var isZaned: Bool = false
+    var zanNum: Int = 0
     var interfacedZanNum: Int = 0
     
     var visibleText: String {
@@ -32,7 +32,7 @@ class VCItemData: VCZanItemDataProtocol {
 
 class ViewController2: UIViewController {
 
-    var isDebug = false
+    var isDebug = true
     // 最后的请求是不是赞，请求结束，置为nil
     var isLastRequestIsZanAction: Bool? = nil
     
