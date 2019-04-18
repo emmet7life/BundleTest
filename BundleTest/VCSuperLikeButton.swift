@@ -34,6 +34,27 @@ extension VCZanItemDataProtocol {
     }
 }
 
+extension UIView {
+    private func _superview(_ view: UIView?) -> UIView? {
+        return view?.superview
+    }
+    
+    func convertRectToWindow() -> CGRect {
+        guard let superview = _superview(self) else { return CGRect.zero }
+        
+        var recursiveView: UIView = superview
+        var rect: CGRect = self.frame
+        
+        while let superview = _superview(recursiveView) {
+            let rect1 = recursiveView.convert(rect, to: superview)
+            recursiveView = superview
+            rect = rect1
+        }
+        
+        return rect
+    }
+}
+
 class VCSuperLikeButton: VCLoadFromNibBaseView {
     
     enum VCLayoutDirection {
@@ -565,5 +586,6 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             
         })
     }
+    
 }
 

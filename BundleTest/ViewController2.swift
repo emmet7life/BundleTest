@@ -75,21 +75,50 @@ class ViewController2: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss SSS"
         
-        let zanCALayerView = VCZanCAEmitterLayerView()
+        let position = VCZanCAEmitterLayerView.OutViewPositionInfo()
+        let zanCALayerView = VCZanCAEmitterLayerView(position: position)
         zanCALayerView.frame = view.bounds
         view.addSubview(zanCALayerView)
+        
+        let view2 = UIView()
+        view2.backgroundColor = .darkGray
+        view2.frame = CGRect(x: 150, y: 300, width: 100, height: 50)
+        view.addSubview(view2)
+        
+        let rectView = UIView()
+        rectView.isUserInteractionEnabled = false
+        rectView.alpha = 0.36
+        rectView.backgroundColor = .yellow
+        view.addSubview(rectView)
+        
+        let rectView2 = UIView()
+        rectView2.isUserInteractionEnabled = false
+        rectView2.alpha = 0.36
+        rectView2.backgroundColor = .green
+        view.addSubview(rectView2)
         
 //        var isUp = false
         let data = VCItemData()
         let likeBtn = VCSuperLikeButton()
-        likeBtn.frame = CGRect(x: 0, y: 150, width: 80, height: 30)
-        likeBtn.right = view.width
+        likeBtn.frame = CGRect(x: 10, y: 10, width: 80, height: 30)
+//        likeBtn.right = view.width
         var options = likeBtn.options
         options.layoutDirection = .trailing
         
-        view.addSubview(likeBtn)
+        view2.addSubview(likeBtn)
         likeBtn.setItemData(with: data)
+        
         likeBtn.userTappedActionBlock = { type in
+            
+            let frame1 = likeBtn.convertRectToWindow()
+            let frame2 = likeBtn.praiseImageView.convertRectToWindow()
+            
+            rectView.frame = frame1
+            rectView2.frame = frame2
+            
+            zanCALayerView.updateZanContainerFrame(with: frame1)
+            zanCALayerView.updateZanIconFrame(with: frame2)
+            
 //            var options = likeBtn.options
 //            isUp = !isUp
 //            data.isZaned = !data.isZaned
@@ -122,6 +151,7 @@ class ViewController2: UIViewController {
             }
         }
         
+        view.bringSubview(toFront: zanCALayerView)
 //        test()
         
 //        let arr: [Int] = [1,2,3]

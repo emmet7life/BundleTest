@@ -14,18 +14,52 @@ extension CGPoint {
     }
 }
 
+extension CGRect {
+    var vc_top: CGFloat {
+        return origin.y
+    }
+    
+    var vc_bottom: CGFloat {
+        return origin.y + size.height
+    }
+    
+    var vc_left: CGFloat {
+        return origin.x
+    }
+    
+    var vc_right: CGFloat {
+        return origin.x + size.width
+    }
+    
+    var vc_centerX: CGFloat {
+        return origin.x + size.width * 0.5
+    }
+    
+    var vc_centerY: CGFloat {
+        return origin.y + size.height * 0.5
+    }
+    
+    var vc_center: CGPoint {
+        return CGPoint(x: vc_centerX, y: vc_centerY)
+    }
+}
+
 class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
 
     // MARK: - View
     @IBOutlet var contentView: UIView!
     
+    private var emitterLayer: CALayer {
+        return contentView.layer
+    }
+    
+    // MARK: - Data
     struct CachedPath {
         var path: UIBezierPath
         var startPoint: CGPoint
         var controlPoint: CGPoint
         var endPoint: CGPoint
     }
-    private var _cachedBezierPaths: [CachedPath] = []
     
     struct LayerWrapper {
         var layer: CALayer
@@ -33,14 +67,51 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         var yTanAngle: CGFloat
     }
     
-    private var emitterLayer: CALayer {
-        return contentView.layer
+    enum NumberPositionType {
+        // 关联值代表偏移量
+        case centerTop(CGFloat, CGFloat)
+        case leftTop(CGFloat, CGFloat)
+    }
+    
+    // 外部视图的位置信息(已转化成全局Window窗口坐标)
+    struct OutViewPositionInfo {
+        var zanContainerFrame: CGRect = CGRect.zero
+        var zanIconFrame: CGRect = CGRect.zero
+        var type: NumberPositionType = VCZanCAEmitterLayerView.defaultLeftTopType
     }
     
     private var _xCosAngles: [CGFloat] = [0, 30, 60, 120, 150, 180]
     private var _yTanAngles: [CGFloat] = [30, 60, 60, 120, 150, 180]
+    private var _cachedBezierPaths: [CachedPath] = []
+    
+    static let defaultCenterTopType: NumberPositionType = NumberPositionType.centerTop(0, -16)
+    static let defaultLeftTopType: NumberPositionType = NumberPositionType.leftTop(-16, -16)
+    
+    private(set) var position: OutViewPositionInfo = OutViewPositionInfo()
+    
+    func updatePosition(with position: OutViewPositionInfo) {
+        self.position = position
+    }
+    
+    func updateZanIconFrame(with frame: CGRect) {
+        position.zanIconFrame = frame
+    }
+    
+    func updateZanContainerFrame(with frame: CGRect) {
+        position.zanContainerFrame = frame
+    }
+    
+    init(position: OutViewPositionInfo) {
+        super.init()
+        self.position = position
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func initialize() {
+        isUserInteractionEnabled = false
         contentView.backgroundColor = .clear
         backgroundColor = .clear
         emitterLayer.addSublayer(_numberLayer)
@@ -74,7 +145,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         guard let image = UIImage(named: icon) else { return nil }
         let layer = CALayer()
         layer.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-        layer.position = contentView.center
+        layer.position = position.zanIconFrame.vc_center
         layer.contents = image.cgImage
         layer.contentsScale = UIScreen.main.nativeScale
         return layer
@@ -173,7 +244,16 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             _numberLayer.height = 30.0
             let numberLayerWidth = _createNumberLayers(with: zanCount)
             _numberLayer.width = numberLayerWidth
-            _numberLayer.position = emitterLayer.center
+            
+            switch position.type {
+            case .centerTop(let offsetX, let offsetY):
+                _numberLayer.centerX = position.zanContainerFrame.vc_centerX + offsetX
+                _numberLayer.top = position.zanContainerFrame.vc_top - _numberLayer.height + offsetY
+            case .leftTop(let offsetX, let offsetY):
+                _numberLayer.left = position.zanContainerFrame.vc_left - _numberLayer.width + offsetX
+                _numberLayer.top = position.zanContainerFrame.vc_top - _numberLayer.height + offsetY
+            }
+            _numberLayer.zPosition = 1
         } else {
             _numberLayer.removeAllSublayers()
         }
