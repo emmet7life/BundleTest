@@ -141,7 +141,6 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                 width = newWidth
             }
         }
-        layoutIfNeeded()
         _updatePraiseImage(with: data.isZaned, animated)
         return newWidth
     }
@@ -159,8 +158,12 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     
     @discardableResult
     fileprivate func _layout(with data: VCZanItemDataProtocol, animated: Bool = false) -> CGFloat {
+        
         praiseImageView.size = options.iconSize
+        praisedImageView.origin = CGPoint.zero
+        praisedImageView.size = praiseImageView.size
         praiseLabel.height = contentView.height
+        
         var textWidth = setText(with: data.visibleText, isUp: data.isZaned, animated: animated)
         
         if options.adjustNumberTextWidthForVisualStable {
@@ -177,6 +180,8 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         if !options.isFixedWidth {
             frameWidth = totalMeaturedWidth
         }
+        
+        praiseImageView.centerY = contentView.centerY
         
         switch options.layoutDirection {
         case .leading:
@@ -266,7 +271,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     private var _quickTappedCount: UInt = 0
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesBegan~~~~")
+//        print("touchesBegan~~~~")
         if let data = itemData {
             if _isEventHandled && _touchesBeginZanState == nil {
                 // 1. 赋初始值
@@ -287,13 +292,13 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesEnded~~~~1")
+//        print("touchesEnded~~~~1")
         defer {
             endLongPressDetectTimer()
         }
         
         guard !_longPressDetected else {
-            print("touchesEnded~~~~长按事件，手指松开")
+//            print("touchesEnded~~~~长按事件，手指松开")
             // 长按事件，手指松开
             longPressTouchesEnded()
             return
@@ -328,7 +333,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
 //                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
 //                    _layout(with: data, animated: true)
                     setItemData(with: data, animated: true)
-                    print("touchesEnded~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
+//                    print("touchesEnded~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
 //                    _updatePraiseImage(with: data.isZaned, true)
                 } else {
                     // 不停的从1.0->1.5->1.0->1.5...
@@ -340,11 +345,11 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             // 2. 网络请求任务不立即执行，延迟一定时间，交给Timer执行
             startEventHandlerTimer(with: 0.50, userInfo: false)
         }
-        print("touchesEnded~~~~2")
+//        print("touchesEnded~~~~2")
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesCancelled~~~~")
+//        print("touchesCancelled~~~~")
         endLongPressDetectTimer()
         endEventHandlerTimer()
         resetInnerControlProperties()
@@ -357,20 +362,20 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     private var _longPressFiringTimer: SwiftTimer? = nil
     
     private func startLongPressDetectTimer() {
-        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer开始")
+//        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer开始")
         _longPressDetectTimer?.invalidate()
         _longPressDetectTimer = Timer(timeInterval: 0.36, target: self, selector: #selector(longPressDetectTimerFire), userInfo: nil, repeats: false)
         RunLoop.main.add(_longPressDetectTimer!, forMode: RunLoop.Mode.commonModes)
     }
     
     private func endLongPressDetectTimer() {
-        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer取消")
+//        print("🔥startLongPressDetectTimer~~~~长按事件监测-Timer取消")
         _longPressDetectTimer?.invalidate()
         _longPressDetectTimer = nil
     }
     
     @objc private func longPressDetectTimerFire() {
-        print("🔥longPressDetectTimerFire~~~~长按事件监测-Timer触发")
+//        print("🔥longPressDetectTimerFire~~~~长按事件监测-Timer触发")
         // End Timer
         _longPressDetected = true
         endLongPressDetectTimer()
@@ -386,7 +391,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
 //                    setText(with: data.visibleText, isUp: data.isZaned, animated: true)
 //                    _layout(with: data, animated: true)
                     setItemData(with: data, animated: true)
-                    print("longPressDetectTimerFire~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
+//                    print("longPressDetectTimerFire~~~~反转数据并刷新UI \(data.isZaned) \(data.zanNum)")
 //                    _updatePraiseImage(with: data.isZaned, true)
                 } else {
                     itemData?.interfacedZanNum += 1
@@ -442,7 +447,7 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     private var _isEventHandled: Bool = true
     
     private func startEventHandlerTimer(with timeInterval: TimeInterval = 0.50, userInfo: Any? = nil) {
-        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer开始")
+//        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer开始")
         _eventHandlerTimer?.invalidate()
         _eventHandlerTimer = nil
         
@@ -451,13 +456,13 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     }
     
     private func endEventHandlerTimer() {
-        print("⚡️endEventHandlerTimer~~~~延迟网络请求操作-Timer取消")
+//        print("⚡️endEventHandlerTimer~~~~延迟网络请求操作-Timer取消")
         _eventHandlerTimer?.invalidate()
         _eventHandlerTimer = nil
     }
     
     @objc private func eventHandlerTimerFire() {
-        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer触发")
+//        print("⚡️startEventHandlerTimer~~~~延迟网络请求操作-Timer触发")
         if let validTimer = _eventHandlerTimer, validTimer.isValid {
             // 是否是长按触发的操作
             if let isFiredByLongPress = validTimer.userInfo as? Bool {
@@ -475,11 +480,11 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
         }
         endEventHandlerTimer()
         resetInnerControlProperties()
-        print("处理了事件~~~~")
+//        print("处理了事件~~~~")
     }
     
     private func resetInnerControlProperties() {
-        print("☠️💣resetInnerControlProperties~~~~重置参数💣☠️")
+//        print("☠️💣resetInnerControlProperties~~~~重置参数💣☠️")
         _quickTappedCount = 0
         _isEventHandled = true
         _touchesBeginZanState = nil
@@ -503,15 +508,19 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
     
     private func _updatePraiseImage(with isLike: Bool, _ animated: Bool = false) {
         print("update praise icon isLike(\(isLike)) animated(\(animated)) _isAnimatingToVisible(\(_isAnimatingToVisible)) _isAnimatingToInvisible(\(_isAnimatingToInvisible))")
+        let iconSize = options.iconSize
+        
         let zanView = praisedImageView
-        zanView.layer.removeAllAnimations()
+//        zanView.layer.displayIfNeeded()
+        
         if isLike {
             guard animated else {
                 if !_isAnimatingToVisible {
                     zanView.alpha = 1.0
-                    zanView.transform = CGAffineTransform.identity
+                    zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+                    zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 }
-                _isAnimatingToVisible = false
+//                _isAnimatingToVisible = false
                 print("update praise icon return 1")
                 return
             }
@@ -519,28 +528,47 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                 print("update praise icon return 2")
                 return
             }
+            
             _isAnimatingToVisible = true
-            zanView.alpha = 1.0
-            zanView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            UIView.animate(withDuration: 0.36,
-                           delay: 0.0,
-                           options: .beginFromCurrentState,
-                           animations: {
-                            zanView.alpha = 1.0
-                            zanView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            }, completion: nil)
+            
+            zanView.alpha = 0.0
+            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+            zanView.transform = CGAffineTransform.identity//(scaleX: 1.0, y: 1.0)
+            
+            zanView.layer.removeAllAnimations()
+//            zanView.layer.setNeedsLayout()
+//            zanView.layer.layoutIfNeeded()
             
             UIView.animate(withDuration: 0.36,
-                           delay: 0.30,
-                           options: .beginFromCurrentState,
+                           delay: 0.0,
+                           options: [.beginFromCurrentState, .layoutSubviews],
+                           animations: {
+                            
+                            zanView.alpha = 1.0
+//                            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+                            zanView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                            
+            }, completion: { [weak self] (isFinished) in
+                guard self != nil else { return }
+//                zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+            })
+            
+            UIView.animate(withDuration: 0.26,
+                           delay: 0.36,
+                           options: [.beginFromCurrentState, .layoutSubviews],
                            animations: {
                             zanView.alpha = 1.0
+//                            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                             zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }, completion: { [weak self] (isFinished) in
                 print("update praise icon completion 1.0 \(isFinished)")
-                self?._isAnimatingToVisible = false
+                guard let strongSelf = self else { return }
+                strongSelf._isAnimatingToVisible = false
                 if isFinished {
                     zanView.alpha = 1.0
+                    zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                } else {
+                    zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                     zanView.transform = CGAffineTransform.identity
                 }
             })
@@ -548,9 +576,10 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             guard animated else {
                 if !_isAnimatingToInvisible {
                     zanView.alpha = 0.0
-                    zanView.transform = CGAffineTransform.identity
+                    zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+                    zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 }
-                _isAnimatingToInvisible = false
+//                _isAnimatingToInvisible = false
                 print("update praise icon return 3")
                 return
             }
@@ -558,19 +587,38 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                 print("update praise icon return 4")
                 return
             }
+            
+//            zanView.alpha = 0.0
+//            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+//            zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            
             _isAnimatingToInvisible = true
+            
+            zanView.layer.removeAllAnimations()
+//            zanView.layer.layoutIfNeeded()
+
             zanView.alpha = 1.0
-            zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            UIView.animate(withDuration: 0.36,
+            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+            zanView.transform = CGAffineTransform.identity//(scaleX: 1.0, y: 1.0)
+
+            UIView.animate(withDuration: 0.15,
                            delay: 0.0,
-                           options: .beginFromCurrentState,
+                           options: [.beginFromCurrentState],
                            animations: {
-                            zanView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                            zanView.alpha = 0.0
+//                            zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+                            zanView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+
             }, completion: { [weak self] (isFinished) in
+
                 print("update praise icon completion 0.0 \(isFinished)")
-                self?._isAnimatingToInvisible = false
+                guard let strongSelf = self else { return }
+                strongSelf._isAnimatingToInvisible = false
                 if isFinished {
                     zanView.alpha = 0.0
+                    zanView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                } else {
+                    zanView.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                     zanView.transform = CGAffineTransform.identity
                 }
             })
@@ -589,14 +637,20 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
             return
         }
         _isRepeatCurveAnimating = true
+        
+        let iconSize = options.iconSize
+        
         view.layer.removeAllAnimations()
         view.alpha = 1.0
-        view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        view.frame = CGRect(origin: CGPoint.zero, size: iconSize)
+        view.transform = CGAffineTransform.identity
+        
         UIView.animate(withDuration: 0.26,
                        delay: 0.0,
                        options: .beginFromCurrentState,
                        animations: {
                         view.alpha = 1.0
+//                        view.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                         view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         }, completion: nil)
         
@@ -605,19 +659,19 @@ class VCSuperLikeButton: VCLoadFromNibBaseView {
                        options: .beginFromCurrentState,
                        animations: {
                         view.alpha = 1.0
+//                        view.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                         view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }, completion: { [weak self] (isFinished) in
-            self?._isRepeatCurveAnimating = false
+            guard let strongSelf = self else { return }
+            strongSelf._isRepeatCurveAnimating = false
             if isFinished {
                 view.alpha = 1.0
+                view.frame = CGRect(origin: CGPoint.zero, size: iconSize)
                 view.transform = CGAffineTransform.identity
             }
-            if let strongSelf = self {
-                let blocks = strongSelf._curveAnimationCompletionBlocks
-                strongSelf._curveAnimationCompletionBlocks.removeAll()
-                blocks.forEach { $0(isFinished) }
-            }
-            
+            let blocks = strongSelf._curveAnimationCompletionBlocks
+            strongSelf._curveAnimationCompletionBlocks.removeAll()
+            blocks.forEach { $0(isFinished) }
         })
     }
     

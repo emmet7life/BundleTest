@@ -149,11 +149,11 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
 
         guard option.isDebug else { return }
         
-        print("🖌draw rect🖌")
+//        print("🖌draw rect🖌")
         
         for path in _cachedBezierPaths {
             
-            print("\(path.startPoint.toInt) - \(path.endPoint.toInt) : \(path.controlPoint.toInt)")
+//            print("\(path.startPoint.toInt) - \(path.endPoint.toInt) : \(path.controlPoint.toInt)")
             
             UIColor.black.setFill()
             UIRectFill(CGRect(origin: path.startPoint.toInt, size: CGSize(width: 4, height: 4)))
@@ -228,7 +228,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             } else {
                 let iconNo = arc4random_uniform(option.canUsageIconEmitterCount)
                 iconName = "\(option.iconNamePrefix)\(iconNo)"
-                print("🌹 图片iconNo: \(iconNo)")
+//                print("🌹 图片iconNo: \(iconNo)")
             }
             
             if let layer = createEmitterLayer(with: iconName) {
@@ -240,13 +240,13 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             }
         }
         
-        print("🌹 有效个数: \(wrappers.count)")
+//        print("🌹 有效个数: \(wrappers.count)")
         
         _cachedBezierPaths.removeAll()
         
         let radius = width * option.radiusMultiplePercent
         for wrapper in wrappers {
-            print("🐛 角度  cos \(wrapper.xCosAngle), tan \(wrapper.yTanAngle)")
+//            print("🐛 角度  cos \(wrapper.xCosAngle), tan \(wrapper.yTanAngle)")
             let layer = wrapper.layer
             
             let rangeInsideMaxX = radius * cos(degreesToRadians(wrapper.xCosAngle))

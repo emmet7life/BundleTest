@@ -32,7 +32,7 @@ class VCItemData: VCZanItemDataProtocol {
 
 class ViewController2: UIViewController {
 
-    var isDebug = true
+    var isDebug = false
     // 最后的请求是不是赞，请求结束，置为nil
     var isLastRequestIsZanAction: Bool? = nil
     
@@ -54,6 +54,7 @@ class ViewController2: UIViewController {
     }
     
     fileprivate func cancelReqIfNeeded(isZan: Bool) {
+        print("❎尝试取消上一次请求！！❎")
         // 上一次和这一次请求类型不一致，则取消上一次请求
         if let isLastZanReq = isLastRequestIsZanAction, isZan != isLastZanReq {
             print("❌取消上一次的\(isLastZanReq)，本次操作为\(isZan)❌")
@@ -119,7 +120,7 @@ class ViewController2: UIViewController {
             zanCALayerView.updateZanContainerFrame(with: frame1)
             zanCALayerView.updateZanIconFrame(with: frame2)
             
-            print("userTappedActionBlock~~~~"+type.flagString)
+//            print("userTappedActionBlock~~~~"+type.flagString)
             
             switch type {
             case .quickTapping(_, let count, let isZaned):
@@ -138,11 +139,11 @@ class ViewController2: UIViewController {
                     // 需要网络请求
                     if isZaned {
                         // 赞
-                        print("🌐🌐🌐~\\(≧▽≦)/~ 赞请求")
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 请求: 赞")
                         self?.simulateZanReq(isZanReq: true)
                     } else {
                         // 取消赞
-                        print("🌐🌐🌐~\\(≧▽≦)/~ 取消赞请求")
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 请求: 取消赞")
                         self?.simulateZanReq(isZanReq: false)
                     }
                 }
@@ -164,11 +165,11 @@ class ViewController2: UIViewController {
                     // 需要网络请求
                     if isZaned {
                         // 赞
-                        print("🌐🌐🌐~\\(≧▽≦)/~ 赞请求")
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 请求: 赞")
                         self?.simulateZanReq(isZanReq: true)
                     } else {
                         // 取消赞
-                        print("🌐🌐🌐~\\(≧▽≦)/~ 取消赞请求")
+                        print("🌐🌐🌐~\\(≧▽≦)/~ 请求: 取消赞")
                         self?.simulateZanReq(isZanReq: false)
                     }
                 }
