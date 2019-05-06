@@ -28,6 +28,8 @@
 		965AEDF42251B1A000842644 /* advance_look_jump_init.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 965AEDF22251B1A000842644 /* advance_look_jump_init.bundle */; };
 		965AEDF52251B1A000842644 /* advance_look_scrolling.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 965AEDF32251B1A000842644 /* advance_look_scrolling.bundle */; };
 		965AEDF72251B42700842644 /* VCAdvanceLookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965AEDF62251B42700842644 /* VCAdvanceLookButton.swift */; };
+		966386FD226F01F500AE70D1 /* ViewController4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966386FC226F01F500AE70D1 /* ViewController4.swift */; };
+		966386FF226F026500AE70D1 /* feed.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 966386FE226F026500AE70D1 /* feed.bundle */; };
 		96669CE221D0D1A4006E3423 /* VCFollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96669CE121D0D1A4006E3423 /* VCFollowButton.swift */; };
 		96669CF321D0D63B006E3423 /* unlike.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CE421D0D63B006E3423 /* unlike.bundle */; };
 		96669CF421D0D63B006E3423 /* follow.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CE521D0D63B006E3423 /* follow.bundle */; };
@@ -44,6 +46,16 @@
 		96669CFF21D0D63B006E3423 /* trash.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CF021D0D63B006E3423 /* trash.bundle */; };
 		96669D0021D0D63B006E3423 /* like.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CF121D0D63B006E3423 /* like.bundle */; };
 		96669D0121D0D63B006E3423 /* unfollowload.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96669CF221D0D63B006E3423 /* unfollowload.bundle */; };
+		966CF5FB226D93D200287679 /* VCFeedListBaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966CF5FA226D93D200287679 /* VCFeedListBaseView.xib */; };
+		966CF5FD226D93EB00287679 /* VCFeedListBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF5FC226D93EB00287679 /* VCFeedListBaseView.swift */; };
+		966CF5FF226DA01E00287679 /* VCFeedInfoHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966CF5FE226DA01E00287679 /* VCFeedInfoHeaderView.xib */; };
+		966CF601226DA4B000287679 /* VCFeedInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF600226DA4B000287679 /* VCFeedInfoHeaderView.swift */; };
+		966CF603226DA51400287679 /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF602226DA51400287679 /* ViewController3.swift */; };
+		966CF605226DA7A400287679 /* VCFeedItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966CF604226DA7A400287679 /* VCFeedItemCell.xib */; };
+		966CF607226DA99B00287679 /* VCFeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF606226DA99B00287679 /* VCFeedItemCell.swift */; };
+		966CF609226DAB8A00287679 /* VCFeedListCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF608226DAB8A00287679 /* VCFeedListCollectionViewLayout.swift */; };
+		966CF60B226DB09900287679 /* VCPageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF60A226DB09900287679 /* VCPageContainerViewController.swift */; };
+		966CF60D226DBB1F00287679 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CF60C226DBB1F00287679 /* UIViewController+Extension.swift */; };
 		9683DE2B215E5E4000547652 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9683DE27215E5E4000547652 /* Post.storyboard */; };
 		9683DE2F215E5E9000547652 /* VCPostAlterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9683DE2E215E5E9000547652 /* VCPostAlterViewController.swift */; };
 		96D8D0D22266C6620070CB7F /* VCZanCAEmitterLayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */; };
@@ -95,6 +107,8 @@
 		965AEDF22251B1A000842644 /* advance_look_jump_init.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = advance_look_jump_init.bundle; path = Lottie/advance_look_jump_init.bundle; sourceTree = "<group>"; };
 		965AEDF32251B1A000842644 /* advance_look_scrolling.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = advance_look_scrolling.bundle; path = Lottie/advance_look_scrolling.bundle; sourceTree = "<group>"; };
 		965AEDF62251B42700842644 /* VCAdvanceLookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAdvanceLookButton.swift; sourceTree = "<group>"; };
+		966386FC226F01F500AE70D1 /* ViewController4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController4.swift; sourceTree = "<group>"; };
+		966386FE226F026500AE70D1 /* feed.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = feed.bundle; path = Lottie/feed.bundle; sourceTree = "<group>"; };
 		96669CE121D0D1A4006E3423 /* VCFollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCFollowButton.swift; sourceTree = "<group>"; };
 		96669CE421D0D63B006E3423 /* unlike.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = unlike.bundle; path = Lottie/unlike.bundle; sourceTree = "<group>"; };
 		96669CE521D0D63B006E3423 /* follow.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = follow.bundle; path = Lottie/follow.bundle; sourceTree = "<group>"; };
@@ -111,6 +125,16 @@
 		96669CF021D0D63B006E3423 /* trash.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = trash.bundle; path = Lottie/trash.bundle; sourceTree = "<group>"; };
 		96669CF121D0D63B006E3423 /* like.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = like.bundle; path = Lottie/like.bundle; sourceTree = "<group>"; };
 		96669CF221D0D63B006E3423 /* unfollowload.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = unfollowload.bundle; path = Lottie/unfollowload.bundle; sourceTree = "<group>"; };
+		966CF5FA226D93D200287679 /* VCFeedListBaseView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VCFeedListBaseView.xib; sourceTree = "<group>"; };
+		966CF5FC226D93EB00287679 /* VCFeedListBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCFeedListBaseView.swift; sourceTree = "<group>"; };
+		966CF5FE226DA01E00287679 /* VCFeedInfoHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VCFeedInfoHeaderView.xib; sourceTree = "<group>"; };
+		966CF600226DA4B000287679 /* VCFeedInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCFeedInfoHeaderView.swift; sourceTree = "<group>"; };
+		966CF602226DA51400287679 /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController3.swift; sourceTree = "<group>"; };
+		966CF604226DA7A400287679 /* VCFeedItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VCFeedItemCell.xib; sourceTree = "<group>"; };
+		966CF606226DA99B00287679 /* VCFeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCFeedItemCell.swift; sourceTree = "<group>"; };
+		966CF608226DAB8A00287679 /* VCFeedListCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCFeedListCollectionViewLayout.swift; sourceTree = "<group>"; };
+		966CF60A226DB09900287679 /* VCPageContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCPageContainerViewController.swift; sourceTree = "<group>"; };
+		966CF60C226DBB1F00287679 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		9683DE28215E5E4000547652 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Post.storyboard; sourceTree = "<group>"; };
 		9683DE2E215E5E9000547652 /* VCPostAlterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCPostAlterViewController.swift; sourceTree = "<group>"; };
 		96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VCZanCAEmitterLayerView.xib; sourceTree = "<group>"; };
@@ -230,6 +254,11 @@
 				9617A3AD22645CE500408228 /* VCLoadFromNibBaseView.swift */,
 				9617A3AF22645D4F00408228 /* VCSimpleAnimateLabel.swift */,
 				96D8D0D32266C67F0070CB7F /* VCZanCAEmitterLayerView.swift */,
+				966CF5FC226D93EB00287679 /* VCFeedListBaseView.swift */,
+				966CF600226DA4B000287679 /* VCFeedInfoHeaderView.swift */,
+				966CF606226DA99B00287679 /* VCFeedItemCell.swift */,
+				966CF608226DAB8A00287679 /* VCFeedListCollectionViewLayout.swift */,
+				966CF60A226DB09900287679 /* VCPageContainerViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -240,6 +269,9 @@
 				9617A3B722646B4900408228 /* VCSuperLikeButton.xib */,
 				9617A3B52264659C00408228 /* VCSimpleAnimateLabel.xib */,
 				96D8D0D12266C6620070CB7F /* VCZanCAEmitterLayerView.xib */,
+				966CF5FA226D93D200287679 /* VCFeedListBaseView.xib */,
+				966CF5FE226DA01E00287679 /* VCFeedInfoHeaderView.xib */,
+				966CF604226DA7A400287679 /* VCFeedItemCell.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -250,6 +282,7 @@
 				9608A0E42253075C00288B1B /* String+Extension.swift */,
 				9617A3B122645D8600408228 /* UIColor+Extension.swift */,
 				9650F9202265EBDB006742E2 /* Timer+Extension.swift */,
+				966CF60C226DBB1F00287679 /* UIViewController+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -260,6 +293,8 @@
 				9683DE2E215E5E9000547652 /* VCPostAlterViewController.swift */,
 				96130B82215B5C5B00D450DB /* ViewController.swift */,
 				9617A3B3226463F100408228 /* ViewController2.swift */,
+				966CF602226DA51400287679 /* ViewController3.swift */,
+				966386FC226F01F500AE70D1 /* ViewController4.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -267,6 +302,7 @@
 		96669CE321D0D62A006E3423 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				966386FE226F026500AE70D1 /* feed.bundle */,
 				965AEDF22251B1A000842644 /* advance_look_jump_init.bundle */,
 				965AEDF32251B1A000842644 /* advance_look_scrolling.bundle */,
 				96669CE921D0D63B006E3423 /* audioLoading.bundle */,
@@ -398,18 +434,22 @@
 				96669CF421D0D63B006E3423 /* follow.bundle in Resources */,
 				965AEDF42251B1A000842644 /* advance_look_jump_init.bundle in Resources */,
 				96669CFD21D0D63B006E3423 /* followload_red.bundle in Resources */,
+				966CF5FF226DA01E00287679 /* VCFeedInfoHeaderView.xib in Resources */,
 				96669CFB21D0D63B006E3423 /* dust.bundle in Resources */,
 				96669CFC21D0D63B006E3423 /* unfollowload_red.bundle in Resources */,
 				96669D0121D0D63B006E3423 /* unfollowload.bundle in Resources */,
 				96669CF321D0D63B006E3423 /* unlike.bundle in Resources */,
 				96669CFE21D0D63B006E3423 /* followload.bundle in Resources */,
+				966CF5FB226D93D200287679 /* VCFeedListBaseView.xib in Resources */,
 				96669CFA21D0D63B006E3423 /* upload_pic.bundle in Resources */,
 				96130B8E215B5C5D00D450DB /* LaunchScreen.storyboard in Resources */,
 				9683DE2B215E5E4000547652 /* Post.storyboard in Resources */,
 				96669CF521D0D63B006E3423 /* unfollow.bundle in Resources */,
+				966CF605226DA7A400287679 /* VCFeedItemCell.xib in Resources */,
 				96669CF621D0D63B006E3423 /* unfollow_red.bundle in Resources */,
 				96669CF721D0D63B006E3423 /* upload_voice.bundle in Resources */,
 				96669D0021D0D63B006E3423 /* like.bundle in Resources */,
+				966386FF226F026500AE70D1 /* feed.bundle in Resources */,
 				96669CF821D0D63B006E3423 /* audioLoading.bundle in Resources */,
 				96669CF921D0D63B006E3423 /* follow_red.bundle in Resources */,
 				96669CFF21D0D63B006E3423 /* trash.bundle in Resources */,
@@ -463,6 +503,8 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BundleTest/Pods-BundleTest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/YYCategories/YYCategories.framework",
 				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
@@ -470,6 +512,8 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYCategories.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
@@ -487,8 +531,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				966CF609226DAB8A00287679 /* VCFeedListCollectionViewLayout.swift in Sources */,
 				96D8D0D42266C67F0070CB7F /* VCZanCAEmitterLayerView.swift in Sources */,
+				966CF607226DA99B00287679 /* VCFeedItemCell.swift in Sources */,
 				96669CE221D0D1A4006E3423 /* VCFollowButton.swift in Sources */,
+				966CF601226DA4B000287679 /* VCFeedInfoHeaderView.swift in Sources */,
+				966CF603226DA51400287679 /* ViewController3.swift in Sources */,
 				9617A3AE22645CE500408228 /* VCLoadFromNibBaseView.swift in Sources */,
 				9608A0E52253075C00288B1B /* String+Extension.swift in Sources */,
 				9617A3B222645D8600408228 /* UIColor+Extension.swift in Sources */,
@@ -496,11 +544,15 @@
 				9617A3B4226463F100408228 /* ViewController2.swift in Sources */,
 				9617A3AC226431CC00408228 /* VCSuperLikeButton.swift in Sources */,
 				9617A3B022645D4F00408228 /* VCSimpleAnimateLabel.swift in Sources */,
+				966386FD226F01F500AE70D1 /* ViewController4.swift in Sources */,
 				96130B83215B5C5B00D450DB /* ViewController.swift in Sources */,
 				9650F9212265EBDB006742E2 /* Timer+Extension.swift in Sources */,
 				96130B81215B5C5B00D450DB /* AppDelegate.swift in Sources */,
 				965AEDF72251B42700842644 /* VCAdvanceLookButton.swift in Sources */,
 				96130B89215B5C5B00D450DB /* BundleTest.xcdatamodeld in Sources */,
+				966CF60D226DBB1F00287679 /* UIViewController+Extension.swift in Sources */,
+				966CF60B226DB09900287679 /* VCPageContainerViewController.swift in Sources */,
+				966CF5FD226D93EB00287679 /* VCFeedListBaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

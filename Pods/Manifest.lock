@@ -1,5 +1,7 @@
 PODS:
+  - Kingfisher (4.10.1)
   - lottie-ios (2.5.0)
+  - MXParallaxHeader (0.6.1)
   - SnapKit (4.0.0)
   - YYCategories (1.0.4):
     - YYCategories/no-arc (= 1.0.4)
@@ -7,24 +9,30 @@ PODS:
   - YYText (1.0.7)
 
 DEPENDENCIES:
+  - Kingfisher
   - lottie-ios
+  - MXParallaxHeader
   - SnapKit
   - YYCategories
   - YYText
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Kingfisher
     - lottie-ios
+    - MXParallaxHeader
     - SnapKit
     - YYCategories
     - YYText
 
 SPEC CHECKSUMS:
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
+  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 980c03a94dd8ad634e7c9f78ebe07185048c9562
+PODFILE CHECKSUM: 1c4e8a9c22ee09d8e03867dd72b22fe49900e021
 
 COCOAPODS: 1.5.3

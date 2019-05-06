@@ -88,17 +88,18 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         var zanIconFrame: CGRect = CGRect.zero                                                                  // 点赞小图标组件的坐标(转化为全局Window窗口坐标)
         var type: NumberPositionType = VCZanCAEmitterLayerView.defaultLeftTopType   // 数字Layer的坐标枚举，关联值代表x、y的偏移量
         var numberDismissDelayTime: TimeInterval = 0.15                                                  // 数字Layer消失的延迟时间
-        var zanCountLevel0: Int = 1                                                                                       // 最小数为多少时，才展示数字Layer
-        var zanCountLevel1: Int = 50                                                                                     // 此数范围内，数字Layer右侧展示”太棒啦“修饰图
-        var zanCountLevel2: Int = 1000                                                                                 // 此数范围内，数字Layer右侧展示”超满意“修饰图
-        var iconSize: CGSize = CGSize(width: 24.0, height: 24.0)                                           // 粒子大小
+        var zanCountLevel0: Int = 0                                                                                       // 最小数为多少时，才展示数字Layer
+        var zanCountLevel1: Int = 50                                                                                     // 超过此数范围内，数字Layer右侧展示”超满意“修饰图
+        var zanCountLevel2: Int = 100                                                                                   // 超过此数范围内，数字Layer右侧展示”太棒啦“修饰图
+        var zanCountLevel3: Int = 1000                                                                                 // 超过此数范围，数字Layer消失
+        var iconSize: CGSize = CGSize(width: 28.0, height: 28.0)                                           // 粒子大小
         var iconEmitterLifeTime: CFTimeInterval = 0.68                                                        // 粒子存活时间
         var oneShotIconEmitterCount: Int = 6                                                                       // 一次喷射几个粒子
         var canUsageIconEmitterCount: UInt32 = 10                                                             // 可用粒子图总数
         var iconNamePrefix: String = "emoji_1f60"                                                                // 粒子图名称前缀
         var iconNameGenerator: ((Int) -> String)? = nil                                                         // 粒子图名称生成器
-        var radiusMultiplePercent: CGFloat = 0.9                                                                   // 以赞ICON为中心的粒子喷射半径
-        var minRadiusPercentRandom: UInt32 = 2                                                                // 最少可随机出的半径范围的百分比
+        var radiusMultiplePercent: CGFloat = 1.0                                                                   // 以赞ICON为中心的粒子喷射半径
+        var minRadiusPercentRandom: UInt32 = 4                                                                // 最少可随机出的半径范围的百分比
         var numberIconSize: CGSize = CGSize(width: 12, height: 18)                                    // 数字Layer的单个ICON大小
         var numberDecorateTextSize: CGSize = CGSize(width: 80, height: 24)                      // 修饰图Layer的大小
         var bezierControlPointXOffsetPercent: CGFloat = 0.8                                                // 控制粒子贝塞尔曲线的控制点偏移量
@@ -248,6 +249,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         for wrapper in wrappers {
 //            print("🐛 角度  cos \(wrapper.xCosAngle), tan \(wrapper.yTanAngle)")
             let layer = wrapper.layer
+            layer.opacity = 0
             
             let rangeInsideMaxX = radius * cos(degreesToRadians(wrapper.xCosAngle))
             let randomX = random
@@ -287,11 +289,15 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             _cachedBezierPaths.append(CachedPath(path: bezierPath, startPoint: startPoint, controlPoint: controlPoint, endPoint: endPoint))
             
             let alphaAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "opacity")
-            alphaAnimation.values = [0.9, 1.0, 0.0]
-            alphaAnimation.keyTimes = [0.0, 0.6, 1.0]
+            alphaAnimation.values = [0.0, 0.0, 0.0, 0.5, 1.0, 0.0]
+            alphaAnimation.keyTimes = [0.0, 0.01, 0.02, 0.03, 0.6, 1.0]
+            
+            let scaleAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
+            scaleAnimation.values = [0.1, 1.0, 1.25]
+            scaleAnimation.keyTimes = [0.0, 0.1, 1.0]
             
             let groupAnimation = CAAnimationGroup()
-            groupAnimation.animations = [positionAnimation, alphaAnimation]
+            groupAnimation.animations = [positionAnimation, alphaAnimation, scaleAnimation]
             groupAnimation.duration = option.iconEmitterLifeTime
             groupAnimation.isRemovedOnCompletion = true
             groupAnimation.delegate = self
@@ -301,7 +307,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
         }
         
         // 创建文本组件
-        if zanCount > option.zanCountLevel0 && zanCount <= option.zanCountLevel2 {
+        if zanCount > option.zanCountLevel0 && zanCount < option.zanCountLevel3 {
             if option.isDebug {
                 _numberLayer.backgroundColor = UIColor.yellow.cgColor
             }
@@ -352,7 +358,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
             }
         }
         
-        if zanCount <= option.zanCountLevel1 {
+        if zanCount >= option.zanCountLevel2 {
             if let image = UIImage(named: "太棒啦!") {
                 let layer = CALayer()
                 layer.contents = image.cgImage
@@ -367,7 +373,7 @@ class VCZanCAEmitterLayerView: VCLoadFromNibBaseView {
                 
                 count += 1
             }
-        } else if zanCount <= option.zanCountLevel2 {
+        } else if zanCount >= option.zanCountLevel1 {
             if let image = UIImage(named: "超满意~") {
                 let layer = CALayer()
                 layer.contents = image.cgImage
