@@ -1,0 +1,23 @@
+//
+//  LKS_ObjectRegistry.h
+//  LookinServer
+//
+//  Created by Li Kai on 2019/4/21.
+//  https://lookin.work
+//
+
+#ifdef CAN_COMPILE_LOOKIN_SERVER
+
+#import <Foundation/Foundation.h>
+
+@interface LKS_ObjectRegistry : NSObject
+
++ (instancetype)sharedInstance;
+
+- (unsigned long)addObject:(NSObject *)object;
+
+- (NSObject *)objectWithOid:(unsigned long)oid;
+
+@end
+
+#endif

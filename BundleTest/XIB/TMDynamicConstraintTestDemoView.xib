@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="JiG-Yj-4AC">
+            <rect key="frame" x="0.0" y="0.0" width="471" height="222"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" image="topic_tag_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Bb3-ix-WWA">
+                    <rect key="frame" x="427" y="99" width="24" height="24"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1111" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL9-7c-Tcv">
+                    <rect key="frame" x="20" y="101" width="30.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="222222222222222222222222222222222222222222222222" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMb-9S-Z7Z">
+                    <rect key="frame" x="58.5" y="101" width="321.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" text="333" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2gl-wA-8CN">
+                    <rect key="frame" x="388" y="101" width="31" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="qBS-hi-9ET" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Bb3-ix-WWA" secondAttribute="trailing" constant="20" id="0V9-P3-INw"/>
+                <constraint firstItem="2gl-wA-8CN" firstAttribute="leading" secondItem="UMb-9S-Z7Z" secondAttribute="trailing" constant="8" id="2Ta-Ud-4J8"/>
+                <constraint firstItem="UMb-9S-Z7Z" firstAttribute="centerY" secondItem="JiG-Yj-4AC" secondAttribute="centerY" id="4To-0A-alT"/>
+                <constraint firstItem="UMb-9S-Z7Z" firstAttribute="leading" secondItem="qL9-7c-Tcv" secondAttribute="trailing" constant="8" id="EX5-XB-ara"/>
+                <constraint firstItem="qL9-7c-Tcv" firstAttribute="centerY" secondItem="JiG-Yj-4AC" secondAttribute="centerY" id="L7a-q3-olZ"/>
+                <constraint firstItem="2gl-wA-8CN" firstAttribute="centerY" secondItem="JiG-Yj-4AC" secondAttribute="centerY" id="Un5-5q-jR5"/>
+                <constraint firstItem="Bb3-ix-WWA" firstAttribute="leading" secondItem="2gl-wA-8CN" secondAttribute="trailing" constant="8" id="WtH-Rh-HnI"/>
+                <constraint firstItem="Bb3-ix-WWA" firstAttribute="centerY" secondItem="JiG-Yj-4AC" secondAttribute="centerY" id="dwm-DL-zq0"/>
+                <constraint firstItem="qL9-7c-Tcv" firstAttribute="leading" secondItem="qBS-hi-9ET" secondAttribute="leading" constant="20" id="kEf-cm-y9O"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="qBS-hi-9ET"/>
+            <point key="canvasLocation" x="215.19999999999999" y="-51.27436281859071"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="topic_tag_ic" width="24" height="24"/>
+    </resources>
+</document>
